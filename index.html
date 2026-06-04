@@ -1,46 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Borrowing Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body style="font-family:sans-serif;max-width:400px;margin:40px auto;">
 
-  <h2>Borrowing Calculator</h2>
+<div style="max-width:500px;margin:auto;padding:25px;border-radius:12px;background:#f7f7f7;font-family:sans-serif;">
+  
+  <h2 style="margin-bottom:20px;">How Much Can I Borrow</h2>
 
   <label>Annual Income ($)</label><br>
-  <input type="number" id="income"><br><br>
+  <input type="number" id="income" style="width:100%;margin-bottom:12px;padding:8px;"><br>
 
   <label>Monthly Expenses ($)</label><br>
-  <input type="number" id="expenses"><br><br>
+  <input type="number" id="expenses" style="width:100%;margin-bottom:12px;padding:8px;"><br>
+
+  <label>Other Monthly Debts ($)</label><br>
+  <input type="number" id="debts" style="width:100%;margin-bottom:12px;padding:8px;"><br>
+
+  <label>Interest Rate (%)</label><br>
+  <input type="number" id="rate" value="6" style="width:100%;margin-bottom:12px;padding:8px;"><br>
+
+  <label>Assessment Buffer (%)</label><br>
+  <input type="number" id="buffer" value="3" style="width:100%;margin-bottom:12px;padding:8px;"><br>
 
   <label>Loan Term (years)</label><br>
-  <input type="number" id="years"><br><br>
+  <input type="number" id="years" value="30" style="width:100%;margin-bottom:18px;padding:8px;"><br>
 
-  <button onclick="calculate()">Calculate</button>
+  <button onclick="calculateBorrow()" 
+    style="width:100%;padding:12px;background:#0078D4;color:white;border:none;border-radius:6px;font-size:16px;">
+    Calculate Borrowing Power
+  </button>
 
-  <h3 id="result"></h3>
+  <h3 id="result" style="margin-top:20px;"></h3>
+
+</div>
 
 <script>
-function calculate() {
-  let income = document.getElementById('income').value;
-  let expenses = document.getElementById('expenses').value;
-  let years = document.getElementById('years').value;
+function calculateBorrow() {
+
+  let income = parseFloat(document.getElementById('income').value) || 0;
+  let expenses = parseFloat(document.getElementById('expenses').value) || 0;
+  let debts = parseFloat(document.getElementById('debts').value) || 0;
+
+  let rate = (parseFloat(document.getElementById('rate').value) || 6) / 100;
+  let buffer = (parseFloat(document.getElementById('buffer').value) || 3) / 100;
+  let years = parseFloat(document.getElementById('years').value) || 30;
+
+  // Bank assessment rate
+  let testRate = rate + buffer;
+  let monthlyRate = testRate / 12;
 
   let monthlyIncome = income / 12;
-  let leftover = monthlyIncome - expenses;
 
-  if (leftover <= 0) {
-    document.getElementById('result').innerText = "Not enough income to borrow.";
+  // Total commitments
+  let totalExpenses = expenses + debts;
+
+  let surplus = monthlyIncome - totalExpenses;
+
+  if (surplus <= 0) {
+    document.getElementById('result').innerText =
+      "Borrowing capacity: $0 (expenses too high)";
     return;
   }
 
-  let borrow = leftover * 12 * years;
+  let n = years * 12;
+
+  // Reverse loan formula (used by lenders)
+  let borrowing = surplus * ((Math.pow(1 + monthlyRate, n) - 1) / 
+                   (monthlyRate * Math.pow(1 + monthlyRate, n)));
+
+  borrowing = Math.round(borrowing);
 
   document.getElementById('result').innerText =
-    "Estimated Borrowing: $" + borrow.toLocaleString();
+    "Estimated Borrowing Power: $" + borrowing.toLocaleString();
 }
 </script>
-
-</body>
-</html>
