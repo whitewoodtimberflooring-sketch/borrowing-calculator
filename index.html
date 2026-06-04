@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Borrowing Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="font-family:sans-serif;max-width:400px;margin:40px auto;">
+
+  <h2>Borrowing Calculator</h2>
+
+  <label>Annual Income ($)</label><br>
+  <input type="number" id="income"><br><br>
+
+  <label>Monthly Expenses ($)</label><br>
+  <input type="number" id="expenses"><br><br>
+
+  <label>Loan Term (years)</label><br>
+  <input type="number" id="years"><br><br>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <h3 id="result"></h3>
+
+<script>
+function calculate() {
+  let income = document.getElementById('income').value;
+  let expenses = document.getElementById('expenses').value;
+  let years = document.getElementById('years').value;
+
+  let monthlyIncome = income / 12;
+  let leftover = monthlyIncome - expenses;
+
+  if (leftover <= 0) {
+    document.getElementById('result').innerText = "Not enough income to borrow.";
+    return;
+  }
+
+  let borrow = leftover * 12 * years;
+
+  document.getElementById('result').innerText =
+    "Estimated Borrowing: $" + borrow.toLocaleString();
+}
+</script>
+
+</body>
+</html>
