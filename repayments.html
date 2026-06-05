@@ -5,38 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body style="font-family:sans-serif;max-width:400px;margin:40px auto;">
+<body style="font-family:sans-serif;max-width:500px;margin:40px auto;background:#f7f7f7;padding:25px;border-radius:12px;">
 
-  <h2>Repayment Calculator</h2>
+  <h2 style="margin-bottom:10px;">Smart Lending Group</h2>
+  <p style="color:#555;margin-bottom:20px;">
+    Estimate your home loan repayments quickly and easily.
+  </p>
+
+  <h3>Repayment Calculator</h3>
 
   <label>Loan Amount ($)</label><br>
-  <input type="number" id="loan"><br><br>
+  <input type="number" id="loan" style="width:100%;margin-bottom:10px;"><br>
 
   <label>Interest Rate (%)</label><br>
-  <input type="number" id="rate" value="6"><br><br>
+  <input type="number" id="rate" value="6" style="width:100%;margin-bottom:10px;"><br>
 
   <label>Loan Term (years)</label><br>
-  <input type="number" id="years" value="30"><br><br>
+  <input type="number" id="years" value="30" style="width:100%;margin-bottom:15px;"><br>
 
-  <button onclick="calculate()">Calculate Repayments</button>
+  <button onclick="calculateRepayments()" style="width:100%;padding:12px;background:#0078D4;color:white;border:none;border-radius:6px;">
+    Calculate Repayments
+  </button>
 
-  <h3 id="result"></h3>
+  <h3 id="result" style="margin-top:20px;"></h3>
+
+  <a href="https://smartlendinggroup.com.au" style="
+    display:inline-block;margin-top:15px;padding:10px 20px;
+    background:#0078D4;color:white;text-decoration:none;border-radius:6px;">
+    Speak to a broker
+  </a>
+
+  <p style="margin-top:20px;font-size:14px;">
+    This is an estimate only. For personalised advice,
+    <strong>contact Smart Lending Group today.</strong>
+  </p>
 
 <script>
-function calculate() {
+function calculateRepayments() {
+
   let loan = parseFloat(document.getElementById('loan').value) || 0;
   let rate = (parseFloat(document.getElementById('rate').value) || 6) / 100;
   let years = parseFloat(document.getElementById('years').value) || 30;
-
-  let monthlyRate = rate / 12;
-  let n = years * 12;
 
   if (loan <= 0) {
     document.getElementById('result').innerText = "Enter loan amount";
     return;
   }
 
-  // Mortgage repayment formula
+  let monthlyRate = rate / 12;
+  let n = years * 12;
+
   let repayment = loan * (monthlyRate * Math.pow(1 + monthlyRate, n)) /
                  (Math.pow(1 + monthlyRate, n) - 1);
 
@@ -49,3 +67,4 @@ function calculate() {
 
 </body>
 </html>
+``
