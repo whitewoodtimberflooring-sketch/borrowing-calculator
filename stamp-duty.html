@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stamp Duty Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="font-family:sans-serif;max-width:500px;margin:40px auto;background:#f7f7f7;padding:25px;border-radius:12px;">
+
+  <h2 style="margin-bottom:10px;">Smart Lending Group</h2>
+  <p style="color:#555;margin-bottom:20px;">
+    Estimate your stamp duty based on property value (VIC guide).
+  </p>
+
+  <h3>Stamp Duty Calculator</h3>
+
+  <label>Property Price ($)</label><br>
+  <input type="number" id="price" style="width:100%;margin-bottom:15px;"><br>
+
+  <button onclick="calculateStampDuty()" style="
+    width:100%;
+    padding:12px;
+    background:#0078D4;
+    color:white;
+    border:none;
+    border-radius:6px;">
+    Calculate Stamp Duty
+  </button>
+
+  <h3 id="result" style="margin-top:20px;"></h3>
+
+  <a href="https://smartlendinggroup.com.au" style="
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 20px;
+    background:#0078D4;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;">
+    Speak to a broker
+  </a>
+
+  <p style="margin-top:20px;font-size:14px;">
+    This is an estimate only. Stamp duty varies based on buyer type,
+    concessions and government rules. 
+    <strong>Contact Smart Lending Group for exact figures.</strong>
+  </p>
+
+<script>
+function calculateStampDuty() {
+
+  let price = parseFloat(document.getElementById('price').value) || 0;
+
+  if (price <= 0) {
+    document.getElementById('result').innerText = "Enter property price";
+    return;
+  }
+
+  let duty = 0;
+
+  // VIC stamp duty brackets (approximate)
+  if (price <= 25000) {
+    duty = price * 0.014;
+  } else if (price <= 130000) {
+    duty = 350 + (price - 25000) * 0.024;
+  } else if (price <= 960000) {
+    duty = 2870 + (price - 130000) * 0.06;
+  } else {
+    duty = 55400 + (price - 960000) * 0.055;
+  }
+
+  duty = Math.round(duty);
+
+  document.getElementById('result').innerText =
+    "Estimated Stamp Duty: $" + duty.toLocaleString();
+}
+</script>
+
+</body>
+</html>
