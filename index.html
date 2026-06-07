@@ -1,88 +1,154 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Borrowing Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<section class="calculator-box">
 
-<body style="font-family:sans-serif;max-width:500px;margin:40px auto;background:#f7f7f7;padding:25px;border-radius:12px;">
+<h2>How Much Can I Borrow?</h2>
 
-  <h2 style="margin-bottom:10px;">Smart Lending Group</h2>
-  <p style="color:#555;margin-bottom:20px;">
-    Use our calculator to estimate your borrowing power.
-  </p>
+<div class="grid">
 
-  <h3>How Much Can I Borrow</h3>
+<div>
+<label>Applicants</label>
+<select id="applicants">
+<option value="1">1</option>
+<option value="2">2</option>
+</select>
+</div>
 
-  <label>Annual Income ($)</label><br>
-  <input type="number" id="income" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Income Applicant 1 ($)</label>
+<input type="number" id="income1">
+</div>
 
-  <label>Monthly Expenses ($)</label><br>
-  <input type="number" id="expenses" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Income Applicant 2 ($)</label>
+<input type="number" id="income2">
+</div>
 
-  <label>Other Monthly Debts ($)</label><br>
-  <input type="number" id="debts" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Dependants</label>
+<select id="dependants">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4+</option>
+</select>
+</div>
 
-  <label>Interest Rate (%)</label><br>
-  <input type="number" id="rate" value="6" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Living Expenses Monthly ($)</label>
+<input type="number" id="expenses">
+</div>
 
-  <label>Assessment Buffer (%)</label><br>
-  <input type="number" id="buffer" value="3" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Credit Card Limits ($)</label>
+<input type="number" id="creditCards">
+</div>
 
-  <label>Loan Term (years)</label><br>
-  <input type="number" id="years" value="30" style="width:100%;margin-bottom:15px;"><br>
+<div>
+<label>Car Loans Monthly ($)</label>
+<input type="number" id="carLoans">
+</div>
 
-  <button onclick="calculateBorrow()" style="width:100%;padding:12px;background:#0078D4;color:white;border:none;border-radius:6px;">
-    Calculate Borrowing Power
-  </button>
+<div>
+<label>Other Liabilities Monthly ($)</label>
+<input type="number" id="otherLoans">
+</div>
 
-  <h3 id="result" style="margin-top:20px;"></h3>
+<div>
+<label>Interest Rate (%)</label>
+<input type="number" id="rate" value="6">
+</div>
 
-  <a href="https://smartlendinggroup.com.au" style="
-    display:inline-block;margin-top:15px;padding:10px 20px;
-    background:#0078D4;color:white;text-decoration:none;border-radius:6px;">
-    Speak to a broker
-  </a>
+</div>
 
-  <p style="margin-top:20px;font-size:14px;">
-    This is an estimate only. For an accurate borrowing assessment,
-    <strong>contact Smart Lending Group today.</strong>
-  </p>
+<button onclick="calculateBorrowing()">
+Calculate
+</button>
+
+<h3 id="borrowResult">$0</h3>
+
+</section>
+
+<style>
+
+.calculator-box{
+max-width:900px;
+margin:auto;
+padding:40px;
+background:white;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+input,select{
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+}
+
+button{
+width:100%;
+margin-top:20px;
+padding:16px;
+background:#2f6fed;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+}
+
+#borrowResult{
+margin-top:30px;
+font-size:40px;
+text-align:center;
+color:#2f6fed;
+}
+
+</style>
 
 <script>
-function calculateBorrow() {
 
-  let income = parseFloat(document.getElementById('income').value) || 0;
-  let expenses = parseFloat(document.getElementById('expenses').value) || 0;
-  let debts = parseFloat(document.getElementById('debts').value) || 0;
+function calculateBorrowing(){
 
-  let rate = (parseFloat(document.getElementById('rate').value) || 6) / 100;
-  let buffer = (parseFloat(document.getElementById('buffer').value) || 3) / 100;
-  let years = parseFloat(document.getElementById('years').value) || 30;
+let income1 = Number(document.getElementById('income1').value)||0;
+let income2 = Number(document.getElementById('income2').value)||0;
+let dependants = Number(document.getElementById('dependants').value)||0;
+let expenses = Number(document.getElementById('expenses').value)||0;
+let creditCards = Number(document.getElementById('creditCards').value)||0;
+let carLoans = Number(document.getElementById('carLoans').value)||0;
+let otherLoans = Number(document.getElementById('otherLoans').value)||0;
+let rate = Number(document.getElementById('rate').value)/100/12;
 
-  let testRate = rate + buffer;
-  let monthlyRate = testRate / 12;
+let totalIncome = (income1 + income2) * 0.70 / 12;
 
-  let monthlyIncome = income / 12;
-  let surplus = monthlyIncome - (expenses + debts);
+let dependantCost = dependants * 700;
 
-  if (surplus <= 0) {
-    document.getElementById('result').innerText =
-      "Borrowing capacity: $0 (expenses too high)";
-    return;
-  }
+let liabilities =
+expenses +
+dependantCost +
+(creditCards * 0.03) +
+carLoans +
+otherLoans;
 
-  let n = years * 12;
+let available = totalIncome - liabilities;
 
-  let borrowing = surplus * ((Math.pow(1 + monthlyRate, n) - 1) /
-                   (monthlyRate * Math.pow(1 + monthlyRate, n)));
+let term = 30 * 12;
 
-  borrowing = Math.round(borrowing * 0.9); // realism adjustment
+let borrowing =
+available * ((1 - Math.pow(1 + rate, -term)) / rate);
 
-  document.getElementById('result').innerText =
-    "Estimated Borrowing Power: $" + borrowing.toLocaleString();
+borrowing = borrowing * 0.82;
+
+document.getElementById('borrowResult').innerText =
+'$' + Math.round(borrowing).toLocaleString();
+
 }
-</script>
 
-</body>
-</html>
+</script>
