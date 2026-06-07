@@ -1,115 +1,57 @@
+<section class="calculator-box">
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Stamp Duty Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<h2>Stamp Duty Calculator</h2>
 
-<body style="font-family:sans-serif;max-width:500px;margin:40px auto;background:#f7f7f7;padding:25px;border-radius:12px;">
+<div class="grid">
 
-  <h2 style="margin-bottom:10px;">Smart Lending Group</h2>
-  <p style="color:#555;margin-bottom:20px;">
-    Estimate your stamp duty (VIC) including concessions and surcharges.
-  </p>
+<div>
+<label>Property Value ($)</label>
+<input type="number" id="propertyPrice">
+</div>
 
-  <h3>Stamp Duty Calculator</h3>
+<div>
+<label>State</label>
+<select id="state">
+<option value="vic">Victoria</option>
+<option value="nsw">NSW</option>
+<option value="qld">Queensland</option>
+</select>
+</div>
 
-  <label>Property Price ($)</label><br>
-  <input type="number" id="price" style="width:100%;margin-bottom:10px;"><br>
+</div>
 
-  <label>
-    <input type="checkbox" id="fhb"> First Home Buyer
-  </label><br><br>
+<button onclick="calculateStampDuty()">
+Calculate Stamp Duty
+</button>
 
-  <label>
-    <input type="checkbox" id="owner"> Owner Occupier
-  </label><br><br>
+<h3 id="stampResult">$0</h3>
 
-  <label>
-    <input type="checkbox" id="foreign"> Foreign Buyer (8% surcharge)
-  </label><br><br>
-
-  <button onclick="calculateStampDuty()" style="
-    width:100%;
-    padding:12px;
-    background:#0078D4;
-    color:white;
-    border:none;
-    border-radius:6px;">
-    Calculate Stamp Duty
-  </button>
-
-  <h3 id="result" style="margin-top:20px;"></h3>
-
-  <a href="https://smartlendinggroup.com.au" style="
-    display:inline-block;
-    margin-top:15px;
-    padding:10px 20px;
-    background:#0078D4;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;">
-    Speak to a broker
-  </a>
-
-  <p style="margin-top:20px;font-size:14px;">
-    This is an estimate only. Government policies, concessions and eligibility 
-    may change. <strong>Contact Smart Lending Group for an exact figure.</strong>
-  </p>
+</section>
 
 <script>
-function calculateStampDuty() {
 
-  let price = parseFloat(document.getElementById('price').value) || 0;
-  let fhb = document.getElementById('fhb').checked;
-  let owner = document.getElementById('owner').checked;
-  let foreign = document.getElementById('foreign').checked;
+function calculateStampDuty(){
 
-  if (price <= 0) {
-    document.getElementById('result').innerText = "Enter property price";
-    return;
-  }
+let price = Number(document.getElementById('propertyPrice').value);
+let state = document.getElementById('state').value;
 
-  let duty = 0;
+let duty = 0;
 
-  // Base VIC duty (standard brackets)
-  if (price <= 25000) {
-    duty = price * 0.014;
-  } else if (price <= 130000) {
-    duty = 350 + (price - 25000) * 0.024;
-  } else if (price <= 960000) {
-    duty = 2870 + (price - 130000) * 0.06;
-  } else {
-    duty = 55400 + (price - 960000) * 0.055;
-  }
-
-  // First Home Buyer rules
-  if (fhb) {
-    if (price <= 600000) {
-      duty = 0;
-    } else if (price <= 750000) {
-      let reduction = (750000 - price) / 150000;
-      duty = duty * (1 - reduction);
-    }
-  }
-
-  // Owner occupier slight adjustment (optional realism tweak)
-  if (owner) {
-    duty = duty * 0.98;
-  }
-
-  // Foreign buyer surcharge (8%)
-  if (foreign) {
-    duty += price * 0.08;
-  }
-
-  duty = Math.round(duty);
-
-  document.getElementById('result').innerText =
-    "Estimated Stamp Duty: $" + duty.toLocaleString();
+if(state === 'vic'){
+duty = price * 0.055;
 }
-</script>
 
-</body>
-</html>
+if(state === 'nsw'){
+duty = price * 0.052;
+}
+
+if(state === 'qld'){
+duty = price * 0.045;
+}
+
+document.getElementById('stampResult').innerText =
+'$' + Math.round(duty).toLocaleString();
+
+}
+
+</script>
