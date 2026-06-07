@@ -1,114 +1,249 @@
-<section class="calculator-box">
+<!-- =========================================
+SMART LENDING GROUP
+HOW MUCH CAN I BORROW CALCULATOR
+FULL EMBEDDED WEBSITE VERSION
+========================================= -->
 
-<h2>How Much Can I Borrow?</h2>
+<section class="borrow-section">
 
-<div class="grid">
+  <div class="borrow-container">
 
-<div>
-<label>Applicants</label>
-<select id="applicants">
-<option value="1">1</option>
-<option value="2">2</option>
-</select>
-</div>
+    <h2>How Much Can I Borrow?</h2>
 
-<div>
-<label>Income Applicant 1 ($)</label>
-<input type="number" id="income1">
-</div>
+    <p class="subtitle">
+      Estimate your borrowing power based on your income, liabilities and household situation.
+    </p>
 
-<div>
-<label>Income Applicant 2 ($)</label>
-<input type="number" id="income2">
-</div>
+    <div class="calculator-grid">
 
-<div>
-<label>Dependants</label>
-<select id="dependants">
-<option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4+</option>
-</select>
-</div>
+      <div class="field">
+        <label>Number of Applicants</label>
+        <select id="applicants">
+          <option value="1">1 Applicant</option>
+          <option value="2">2 Applicants</option>
+        </select>
+      </div>
 
-<div>
-<label>Living Expenses Monthly ($)</label>
-<input type="number" id="expenses">
-</div>
+      <div class="field">
+        <label>Annual Income Applicant 1 ($)</label>
+        <input type="number" id="income1" placeholder="e.g. 115000">
+      </div>
 
-<div>
-<label>Credit Card Limits ($)</label>
-<input type="number" id="creditCards">
-</div>
+      <div class="field">
+        <label>Annual Income Applicant 2 ($)</label>
+        <input type="number" id="income2" placeholder="Optional">
+      </div>
 
-<div>
-<label>Car Loans Monthly ($)</label>
-<input type="number" id="carLoans">
-</div>
+      <div class="field">
+        <label>Number of Dependants</label>
+        <select id="dependants">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </div>
 
-<div>
-<label>Other Liabilities Monthly ($)</label>
-<input type="number" id="otherLoans">
-</div>
+      <div class="field">
+        <label>Monthly Living Expenses ($)</label>
+        <input type="number" id="expenses" placeholder="e.g. 3000">
+      </div>
 
-<div>
-<label>Interest Rate (%)</label>
-<input type="number" id="rate" value="6">
-</div>
+      <div class="field">
+        <label>Credit Card Limits ($)</label>
+        <input type="number" id="creditCards" placeholder="e.g. 10000">
+      </div>
 
-</div>
+      <div class="field">
+        <label>Car Loan Repayments Monthly ($)</label>
+        <input type="number" id="carLoans" placeholder="e.g. 500">
+      </div>
 
-<button onclick="calculateBorrowing()">
-Calculate
-</button>
+      <div class="field">
+        <label>Other Loan Repayments Monthly ($)</label>
+        <input type="number" id="otherLoans" placeholder="e.g. 300">
+      </div>
 
-<h3 id="borrowResult">$0</h3>
+      <div class="field">
+        <label>HECS / HELP Debt</label>
+        <select id="hecs">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Interest Rate (%)</label>
+        <input type="number" id="interestRate" value="6" step="0.01">
+      </div>
+
+    </div>
+
+    <button onclick="calculateBorrowing()">
+      Calculate Borrowing Power
+    </button>
+
+    <div class="result-box">
+
+      <h3>Estimated Borrowing Power</h3>
+
+      <div id="result">
+        $0
+      </div>
+
+      <p class="disclaimer">
+        This calculator provides an estimate only and is intended as a general guide.
+        Results do not represent financial advice, lender approval or a loan offer.
+        Borrowing capacity may vary depending on lender policies, credit assessment
+        and your individual circumstances.
+      </p>
+
+      <!-- CHANGE THIS LINK TO YOUR WEBSITE FORM -->
+      <a href="#contact-form" class="cta-button">
+        Speak With a Broker
+      </a>
+
+    </div>
+
+  </div>
 
 </section>
 
 <style>
 
-.calculator-box{
-max-width:900px;
-margin:auto;
-padding:40px;
-background:white;
-border-radius:15px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+.borrow-section{
+    width:100%;
+    padding:60px 20px;
+    background:#f4f7fc;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+.borrow-container{
+    max-width:950px;
+    margin:auto;
+    background:#ffffff;
+    padding:45px;
+    border-radius:18px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.08);
 }
 
-input,select{
-width:100%;
-padding:14px;
-border:1px solid #ccc;
-border-radius:10px;
+.borrow-container h2{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:10px;
+    color:#10224d;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:40px;
+    font-size:17px;
+}
+
+.calculator-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:22px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field label{
+    margin-bottom:8px;
+    font-weight:600;
+    color:#222;
+}
+
+.field input,
+.field select{
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    width:100%;
 }
 
 button{
-width:100%;
-margin-top:20px;
-padding:16px;
-background:#2f6fed;
-color:white;
-border:none;
-border-radius:10px;
-font-size:18px;
-cursor:pointer;
+    width:100%;
+    margin-top:35px;
+    padding:18px;
+    background:#2f6fed;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-#borrowResult{
-margin-top:30px;
-font-size:40px;
-text-align:center;
-color:#2f6fed;
+button:hover{
+    background:#174fb5;
+}
+
+.result-box{
+    margin-top:40px;
+    padding:30px;
+    background:#eef4ff;
+    border-radius:15px;
+    text-align:center;
+}
+
+.result-box h3{
+    font-size:24px;
+    margin-bottom:15px;
+    color:#10224d;
+}
+
+#result{
+    font-size:48px;
+    font-weight:800;
+    color:#2f6fed;
+    margin-bottom:20px;
+}
+
+.disclaimer{
+    font-size:14px;
+    color:#666;
+    line-height:1.7;
+    max-width:700px;
+    margin:auto;
+}
+
+.cta-button{
+    display:inline-block;
+    margin-top:28px;
+    padding:16px 32px;
+    background:#10224d;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    font-weight:700;
+    transition:0.3s;
+}
+
+.cta-button:hover{
+    background:#2f6fed;
+}
+
+@media(max-width:768px){
+
+.borrow-container{
+    padding:25px;
+}
+
+.borrow-container h2{
+    font-size:30px;
+}
+
+#result{
+    font-size:36px;
+}
+
 }
 
 </style>
@@ -117,38 +252,88 @@ color:#2f6fed;
 
 function calculateBorrowing(){
 
-let income1 = Number(document.getElementById('income1').value)||0;
-let income2 = Number(document.getElementById('income2').value)||0;
-let dependants = Number(document.getElementById('dependants').value)||0;
-let expenses = Number(document.getElementById('expenses').value)||0;
-let creditCards = Number(document.getElementById('creditCards').value)||0;
-let carLoans = Number(document.getElementById('carLoans').value)||0;
-let otherLoans = Number(document.getElementById('otherLoans').value)||0;
-let rate = Number(document.getElementById('rate').value)/100/12;
+    let income1 =
+        Number(document.getElementById('income1').value) || 0;
 
-let totalIncome = (income1 + income2) * 0.70 / 12;
+    let income2 =
+        Number(document.getElementById('income2').value) || 0;
 
-let dependantCost = dependants * 700;
+    let dependants =
+        Number(document.getElementById('dependants').value) || 0;
 
-let liabilities =
-expenses +
-dependantCost +
-(creditCards * 0.03) +
-carLoans +
-otherLoans;
+    let expenses =
+        Number(document.getElementById('expenses').value) || 0;
 
-let available = totalIncome - liabilities;
+    let creditCards =
+        Number(document.getElementById('creditCards').value) || 0;
 
-let term = 30 * 12;
+    let carLoans =
+        Number(document.getElementById('carLoans').value) || 0;
 
-let borrowing =
-available * ((1 - Math.pow(1 + rate, -term)) / rate);
+    let otherLoans =
+        Number(document.getElementById('otherLoans').value) || 0;
 
-borrowing = borrowing * 0.82;
+    let interestRate =
+        Number(document.getElementById('interestRate').value) / 100 / 12;
 
-document.getElementById('borrowResult').innerText =
-'$' + Math.round(borrowing).toLocaleString();
+    let hecs =
+        Number(document.getElementById('hecs').value);
+
+    // TOTAL INCOME
+    let totalIncome = income1 + income2;
+
+    // NET MONTHLY INCOME ESTIMATE
+    let monthlyIncome = (totalIncome * 0.70) / 12;
+
+    // DEPENDANT LOADING
+    let dependantCost = dependants * 700;
+
+    // CREDIT CARD ASSESSMENT
+    let creditCardCommitment = creditCards * 0.03;
+
+    // HECS LOADING
+    let hecsLoading = hecs ? totalIncome * 0.01 / 12 : 0;
+
+    // TOTAL MONTHLY LIABILITIES
+    let totalLiabilities =
+        expenses +
+        dependantCost +
+        creditCardCommitment +
+        carLoans +
+        otherLoans +
+        hecsLoading;
+
+    // SURPLUS
+    let availableIncome =
+        monthlyIncome - totalLiabilities;
+
+    // IF NEGATIVE
+    if(availableIncome <= 0){
+
+        document.getElementById('result').innerHTML =
+            'Insufficient Servicing';
+
+        return;
+    }
+
+    // 30 YEAR TERM
+    let months = 30 * 12;
+
+    // BORROWING FORMULA
+    let borrowing =
+        availableIncome *
+        ((1 - Math.pow(1 + interestRate, -months)) / interestRate);
+
+    // CONSERVATIVE ADJUSTMENT
+    borrowing = borrowing * 0.82;
+
+    borrowing =
+        Math.round(borrowing / 1000) * 1000;
+
+    document.getElementById('result').innerHTML =
+        '$' + borrowing.toLocaleString();
 
 }
 
 </script>
+``
