@@ -1,22 +1,43 @@
-<section class="calculator-box">
+!-- =========================================
+REPAYMENT CALCULATOR
+SMART LENDING GROUP
+FULL RESPONSIVE VERSION
+========================================= -->
+
+<section class="repayment-section">
+
+<div class="repayment-container">
 
 <h2>Repayment Calculator</h2>
 
-<div class="grid">
+<p class="subtitle">
+Estimate your monthly home loan repayments based on your loan amount, interest rate and loan term.
+</p>
 
-<div>
+<div class="repayment-grid">
+
+<div class="field">
 <label>Loan Amount ($)</label>
-<input type="number" id="loanAmount">
+<input type="number" id="loanAmount" placeholder="e.g. 650000">
 </div>
 
-<div>
+<div class="field">
 <label>Interest Rate (%)</label>
-<input type="number" id="interestRate" value="6">
+<input type="number" id="interestRate" value="6" step="0.01">
 </div>
 
-<div>
+<div class="field">
 <label>Loan Term (Years)</label>
 <input type="number" id="loanTerm" value="30">
+</div>
+
+<div class="field">
+<label>Repayment Type</label>
+<select id="repaymentType">
+<option value="monthly">Monthly</option>
+<option value="fortnightly">Fortnightly</option>
+<option value="weekly">Weekly</option>
+</select>
 </div>
 
 </div>
@@ -25,25 +46,222 @@
 Calculate Repayments
 </button>
 
-<h3 id="repaymentResult">$0 / month</h3>
+<div class="result-box">
+
+<h3>Estimated Repayments</h3>
+
+<div id="repaymentResult">
+$0
+</div>
+
+<p class="repayment-note" id="repaymentFrequency">
+per month
+</p>
+
+<p class="disclaimer">
+This calculator provides an estimate only and is intended as a general guide.
+Results do not represent financial advice, lender approval or a loan offer.
+Actual repayments may vary depending on lender rates, fees and loan structure.
+</p>
+
+<a href="https://smartlendinggroup.com.au/" class="cta-button">
+Speak With a Broker
+</a>
+
+</div>
+
+</div>
 
 </section>
+
+<style>
+
+.repayment-section{
+width:100%;
+padding:60px 20px;
+background:#f4f7fc;
+}
+
+.repayment-container{
+max-width:950px;
+margin:auto;
+background:#ffffff;
+padding:45px;
+border-radius:18px;
+box-shadow:0 10px 35px rgba(0,0,0,0.08);
+}
+
+.repayment-container h2{
+text-align:center;
+font-size:38px;
+margin-bottom:10px;
+color:#10224d;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:40px;
+font-size:17px;
+}
+
+.repayment-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:22px;
+}
+
+.field{
+display:flex;
+flex-direction:column;
+}
+
+.field label{
+margin-bottom:8px;
+font-weight:600;
+color:#222;
+}
+
+.field input,
+.field select{
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
+width:100%;
+}
+
+button{
+width:100%;
+margin-top:35px;
+padding:18px;
+background:#2f6fed;
+color:white;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#174fb5;
+}
+
+.result-box{
+margin-top:40px;
+padding:30px;
+background:#eef4ff;
+border-radius:15px;
+text-align:center;
+}
+
+.result-box h3{
+font-size:24px;
+margin-bottom:15px;
+color:#10224d;
+}
+
+#repaymentResult{
+font-size:48px;
+font-weight:800;
+color:#2f6fed;
+margin-bottom:10px;
+}
+
+.repayment-note{
+font-size:18px;
+font-weight:600;
+color:#10224d;
+margin-bottom:20px;
+}
+
+.disclaimer{
+font-size:14px;
+color:#666;
+line-height:1.7;
+max-width:700px;
+margin:auto;
+}
+
+.cta-button{
+display:inline-block;
+margin-top:28px;
+padding:16px 32px;
+background:#10224d;
+color:white;
+text-decoration:none;
+border-radius:12px;
+font-weight:700;
+transition:0.3s;
+}
+
+.cta-button:hover{
+background:#2f6fed;
+}
+
+@media(max-width:768px){
+
+.repayment-container{
+padding:25px;
+}
+
+.repayment-container h2{
+font-size:30px;
+}
+
+#repaymentResult{
+font-size:36px;
+}
+
+}
+
+</style>
 
 <script>
 
 function calculateRepayment(){
 
-let loan = Number(document.getElementById('loanAmount').value);
-let rate = Number(document.getElementById('interestRate').value)/100/12;
-let months = Number(document.getElementById('loanTerm').value)*12;
+let loan =
+Number(document.getElementById('loanAmount').value);
 
-let repayment =
+let rate =
+Number(document.getElementById('interestRate').value) / 100 / 12;
+
+let months =
+Number(document.getElementById('loanTerm').value) * 12;
+
+let repaymentType =
+document.getElementById('repaymentType').value;
+
+// MONTHLY REPAYMENT
+let monthly =
 loan *
-(rate * Math.pow(1+rate,months)) /
-(Math.pow(1+rate,months)-1);
+(rate * Math.pow(1 + rate, months)) /
+(Math.pow(1 + rate, months) - 1);
 
-document.getElementById('repaymentResult').innerText =
-'$' + Math.round(repayment).toLocaleString() + ' / month';
+let repayment = monthly;
+let label = "per month";
+
+// FORTNIGHTLY
+if(repaymentType === "fortnightly"){
+repayment = monthly * 12 / 26;
+label = "per fortnight";
+}
+
+// WEEKLY
+if(repaymentType === "weekly"){
+repayment = monthly * 12 / 52;
+label = "per week";
+}
+
+// DISPLAY
+document.getElementById('repaymentResult').innerHTML =
+'$' + Math.round(repayment).toLocaleString();
+
+document.getElementById('repaymentFrequency').innerHTML =
+label;
 
 }
 
