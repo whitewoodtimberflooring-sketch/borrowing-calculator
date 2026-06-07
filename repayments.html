@@ -1,70 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Repayment Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<section class="calculator-box">
 
-<body style="font-family:sans-serif;max-width:500px;margin:40px auto;background:#f7f7f7;padding:25px;border-radius:12px;">
+<h2>Repayment Calculator</h2>
 
-  <h2 style="margin-bottom:10px;">Smart Lending Group</h2>
-  <p style="color:#555;margin-bottom:20px;">
-    Estimate your home loan repayments quickly and easily.
-  </p>
+<div class="grid">
 
-  <h3>Repayment Calculator</h3>
+<div>
+<label>Loan Amount ($)</label>
+<input type="number" id="loanAmount">
+</div>
 
-  <label>Loan Amount ($)</label><br>
-  <input type="number" id="loan" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Interest Rate (%)</label>
+<input type="number" id="interestRate" value="6">
+</div>
 
-  <label>Interest Rate (%)</label><br>
-  <input type="number" id="rate" value="6" style="width:100%;margin-bottom:10px;"><br>
+<div>
+<label>Loan Term (Years)</label>
+<input type="number" id="loanTerm" value="30">
+</div>
 
-  <label>Loan Term (years)</label><br>
-  <input type="number" id="years" value="30" style="width:100%;margin-bottom:15px;"><br>
+</div>
 
-  <button onclick="calculateRepayments()" style="width:100%;padding:12px;background:#0078D4;color:white;border:none;border-radius:6px;">
-    Calculate Repayments
-  </button>
+<button onclick="calculateRepayment()">
+Calculate Repayments
+</button>
 
-  <h3 id="result" style="margin-top:20px;"></h3>
+<h3 id="repaymentResult">$0 / month</h3>
 
-  <a href="https://smartlendinggroup.com.au" style="
-    display:inline-block;margin-top:15px;padding:10px 20px;
-    background:#0078D4;color:white;text-decoration:none;border-radius:6px;">
-    Speak to a broker
-  </a>
-
-  <p style="margin-top:20px;font-size:14px;">
-    This is an estimate only. For personalised advice,
-    <strong>contact Smart Lending Group today.</strong>
-  </p>
+</section>
 
 <script>
-function calculateRepayments() {
 
-  let loan = parseFloat(document.getElementById('loan').value) || 0;
-  let rate = (parseFloat(document.getElementById('rate').value) || 6) / 100;
-  let years = parseFloat(document.getElementById('years').value) || 30;
+function calculateRepayment(){
 
-  if (loan <= 0) {
-    document.getElementById('result').innerText = "Enter loan amount";
-    return;
-  }
+let loan = Number(document.getElementById('loanAmount').value);
+let rate = Number(document.getElementById('interestRate').value)/100/12;
+let months = Number(document.getElementById('loanTerm').value)*12;
 
-  let monthlyRate = rate / 12;
-  let n = years * 12;
+let repayment =
+loan *
+(rate * Math.pow(1+rate,months)) /
+(Math.pow(1+rate,months)-1);
 
-  let repayment = loan * (monthlyRate * Math.pow(1 + monthlyRate, n)) /
-                 (Math.pow(1 + monthlyRate, n) - 1);
+document.getElementById('repaymentResult').innerText =
+'$' + Math.round(repayment).toLocaleString() + ' / month';
 
-  repayment = Math.round(repayment);
-
-  document.getElementById('result').innerText =
-    "Monthly Repayment: $" + repayment.toLocaleString();
 }
-</script>
 
-</body>
-</html>
-``
+</script>
